@@ -12,10 +12,10 @@ function narcissistic(int $value): bool
   $sum = array_sum($arrayNarcis);
 //   print_r($sum);
   if($sum === $value){
-    echo "c'est un nombre narcissique";
+    echo $value . " est un nombre narcissique";
     return true;
   }else{
-    echo "ce n'est pas un nombre narcissique";
+    echo $value . " n'est pas un nombre narcissique";
     return false;
   }
 //   print_r($number);
