@@ -1,8 +1,15 @@
 <?php
 
 function uniqueInOrder($iterable){
-    $arrayValue = str_split($iterable);
-    // print_r($arrayValue);
+    if (empty($iterable)) {
+        return [];
+    }
+  
+    if (is_string($iterable)) {
+        $arrayValue = str_split($iterable);
+    } elseif (is_array($iterable)) {
+        $arrayValue = $iterable;
+    }
     $finalArray = [];
 //   return $ret; 
     for($i = 0; $i < count($arrayValue); $i++){
@@ -11,7 +18,7 @@ function uniqueInOrder($iterable){
         }
     }
     return $finalArray;
-    print_r($finalArray);
+//    print_r($finalArray);
 }
 
 uniqueInOrder("AAAABBBCCDAABBB");
