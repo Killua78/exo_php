@@ -1,4 +1,5 @@
-<?= session_start(); // indispensable pour activer les sessions ?>
+<?php session_start(); // indispensable pour activer les sessions 
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,29 +20,35 @@
         <input type="password" name="user[password-confirm]" id="password-confirm" placeholder="confirmez le mot de passe">
         <button type="submit">Envoyer</button>
     </form>
+    <!-- n'affiche pas de tableau si celui-ci est vide -->
+    <?php if (!empty($_SESSION["users"])): ?>
+        <table>
+            <thead>
+                <tr>
+                    <?php foreach ($_SESSION["users"][0] as $key => $user) {
+                        echo "<th> " . $key . " </th>";
+                    } ?>
+                </tr>
+            </thead>
 
-    <table>
-        <thead>
-            <tr>
-                <?php foreach($_SESSION["users"][0] as $key => $user){
-                    echo "<th> " . $key . " </th>";
-                } ?>
-            </tr>
-        </thead>
+            <tbody>
+                <?php
+                for ($i = 0; $i < count($_SESSION["users"]); $i++) {
+                    echo "<tr>";
+                    foreach ($_SESSION["users"][$i] as $key => $user) {
+                        echo "<td> " . $user . " </td>";
+                    }
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
 
-        <tbody>
-            <tr>
-                <td>oui</td>
-                <td>oui</td>
-                <td>oui</td>
-            </tr>
-            <tr>
-                <td>oui</td>
-                <td>oui</td>
-                <td>oui</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- vider la session -->
+    <form method="post">
+        <button type="submit" name="reset">Reset</button>
+    </form>
 </body>
 
 </html>
@@ -98,6 +105,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         echo "Veuillez remplir TOUS les champs";
     }
+}
+// vider la session
+if (isset($_POST["reset"])) {
+    $_SESSION["users"] = [];
 }
 
 $compteur = count($_SESSION["users"]);
